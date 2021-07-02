@@ -6,17 +6,12 @@ import { useState, useCallback } from 'react';
 
 import Cell from './Cell';
 
-interface LifeGridState {
-  alive: boolean;
-}
-
 interface PropTypes {
   gridSize: number;
   pattern: any;
   setGrid: Function;
   setGeneration: Function;
   generation: number;
-  toggleLife: Function;
 }
 
 const LifeGrid = ({
@@ -25,7 +20,6 @@ const LifeGrid = ({
   setGrid,
   generation,
   setGeneration,
-  toggleLife,
 }: PropTypes) => {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,22 +29,22 @@ const LifeGrid = ({
     })
   );
   const classes = useStyles();
-  const [boardState, setBoardState] = useState<LifeGridState>({
-    alive: false,
-  });
-  function useForceUpdate() {
-    const [, setTick] = useState(0);
-    const update = useCallback(() => {
-      setTick((tick) => tick + 1);
-    }, []);
-    return update;
-  }
+  const [alive, setAlive] = useState(false);
 
   // need following to resize grid in place
   useEffect(() => {
     initializeGrid();
     //eslint-disable-next-line
   }, [gridSize]);
+
+  useEffect(() => {
+    if (alive) {
+      setTimeout(() => {
+        setGeneration((prev: any) => prev + 1);
+        setGrid((prev: any) => nextGen(prev));
+      }, 33);
+    }
+  }, [generation]);
 
   const initializeGrid = () => {
     const newBoardState: number[][] = [];
@@ -61,6 +55,7 @@ const LifeGrid = ({
       }
     }
     setGrid(newBoardState);
+    return gridSize;
   };
 
   const renderBoard = (pattern: number[][]) => {
@@ -93,21 +88,14 @@ const LifeGrid = ({
     );
   };
 
-  const playButton = (): any => {
+  const nextButton = () => {
     setGeneration(generation + 1);
     setGrid(nextGen(pattern));
   };
 
   const onClick = () => {
-    for (
-      let i = 0;
-      i < 100;
-      setTimeout(() => {
-        i++;
-      }, 100)
-    ) {
-      playButton();
-    }
+    setAlive(!alive);
+    nextButton();
   };
 
   return (
@@ -118,7 +106,7 @@ const LifeGrid = ({
         <Button color="primary" onClick={onClick}>
           Play
         </Button>
-        <Button color="primary" onClick={playButton}>
+        <Button color="primary" onClick={nextButton}>
           Next
         </Button>
       </Box>

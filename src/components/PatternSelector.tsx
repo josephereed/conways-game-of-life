@@ -20,17 +20,29 @@ const patterns = [
 ];
 
 interface PropTypes {
-  setGridConfig: Function
+  setGridConfig: Function;
+  setGrid: Function;
+  initializeGrid: Function;
 }
 
-const PatternSelector = ({ setGridConfig }: PropTypes) => {
+const PatternSelector = ({
+  setGridConfig,
+  setGrid,
+  initializeGrid,
+}: PropTypes) => {
   return (
     <Box>
       <div className="pattern-wrapper">
         <Typography variant="h6">Famous Patterns</Typography>
         <ul>
           {patterns.map((pattern) => (
-            <li style={{ cursor: 'pointer'}} key={pattern.name} onClick={() => setGridConfig(pattern.name, pattern.size)}>
+            <li
+              style={{ cursor: 'pointer' }}
+              key={pattern.name}
+              onClick={() => {
+                setGridConfig(pattern.name, pattern.size);
+              }}
+            >
               <Typography variant="body2">{pattern.name}</Typography>
             </li>
           ))}

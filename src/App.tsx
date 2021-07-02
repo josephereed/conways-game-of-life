@@ -12,7 +12,7 @@ import type { Pattern } from './types/Pattern';
 const App = () => {
   const [size, setSize] = useState<number>(32);
   const [speed, setSpeed] = useState<number>(30);
-  const [grid, setGrid] = useState<number[][] | null>(null);
+  const [grid, setGrid] = useState<number[][] | null>(patterns['blank']);
   const [generation, setGeneration] = useState<number>(0);
 
   const setGridConfig = (name: Pattern, size: number) => {
@@ -21,8 +21,16 @@ const App = () => {
     setGeneration(0);
   };
 
-  const toggleLife = (callback: Function) => {
-    setInterval(() => callback(), 100);
+  const initializeGrid = (gridSize: number) => {
+    const newBoardState: number[][] = [];
+    for (let i = 0; i < gridSize; i++) {
+      newBoardState.push([]);
+      for (let j = 0; j < gridSize; j++) {
+        newBoardState[i].push(0);
+      }
+    }
+    setGrid(newBoardState);
+    return gridSize;
   };
 
   const useStyles = makeStyles((theme: Theme) =>
@@ -63,7 +71,6 @@ const App = () => {
               setGrid={setGrid}
               generation={generation}
               setGeneration={setGeneration}
-              toggleLife={() => toggleLife}
             />
           </Paper>
         </Grid>
@@ -71,7 +78,11 @@ const App = () => {
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <Paper className={classes.paper}>
-                <PatternSelector setGridConfig={setGridConfig} />
+                <PatternSelector
+                  setGridConfig={setGridConfig}
+                  setGrid={setGrid}
+                  initializeGrid={initializeGrid}
+                />
               </Paper>
             </Grid>
             <Grid item className={classes.fill}>
