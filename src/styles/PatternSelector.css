@@ -1,0 +1,9 @@
+.pattern-wrapper {
+  padding: 10px;
+}
+
+.pattern-wrapper ul {
+  list-style-position: inherit;
+  overflow-y: scroll;
+  padding-left: 5px;
+}

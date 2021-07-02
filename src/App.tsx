@@ -1,26 +1,99 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import InfoBlock from './components/InfoBlock';
+import LifeGrid from './components/LifeGrid';
+import OptionsSliders from './components/OptionsSliders';
+import PatternSelector from './components/PatternSelector';
+import { Container, Grid, Paper } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import patterns from './logic/patternsReady';
+import type { Pattern } from './types/Pattern';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+  const [size, setSize] = useState<number>(32);
+  const [speed, setSpeed] = useState<number>(30);
+  const [grid, setGrid] = useState<number[][] | null>(null);
+  const [generation, setGeneration] = useState<number>(0);
+
+  const setGridConfig = (name: Pattern, size: number) => {
+    setSize(size);
+    setGrid(patterns[name]);
+    setGeneration(0);
+  };
+
+  const toggleLife = (callback: Function) => {
+    setInterval(() => callback(), 100);
+  };
+
+  const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+      root: {
+        flexGrow: 1,
+      },
+      paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+      },
+      fill: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        minHeight: '290px',
+      },
+      fillPaper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        minHeight: '290px',
+      },
+    })
   );
-}
+
+  const classes = useStyles();
+
+  return (
+    <Container>
+      <Grid container spacing={2} className={classes.root}>
+        <Grid item sm={12} md={8}>
+          <Paper className={classes.paper}>
+            <LifeGrid
+              gridSize={size}
+              pattern={grid}
+              setGrid={setGrid}
+              generation={generation}
+              setGeneration={setGeneration}
+              toggleLife={() => toggleLife}
+            />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={12} md={4}>
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <Paper className={classes.paper}>
+                <PatternSelector setGridConfig={setGridConfig} />
+              </Paper>
+            </Grid>
+            <Grid item className={classes.fill}>
+              <Paper className={classes.fillPaper}>
+                <OptionsSliders
+                  setSpeed={setSpeed}
+                  setSize={setSize}
+                  size={size}
+                  speed={speed}
+                />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <InfoBlock />
+          </Paper>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
 
 export default App;
