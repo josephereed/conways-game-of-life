@@ -21,6 +21,18 @@ const App = () => {
     setGeneration(0);
   };
 
+  const clear = () => {
+    if (grid) {
+      const newPattern = grid.map((row, i) => {
+        return row.map((column, j) => {
+          // Any live cell with fewer than two live neighbors dies, as if by under-population.
+          return 0;
+        });
+      });
+      setGrid(newPattern);
+    }
+  };
+
   const initializeGrid = (gridSize: number) => {
     const newBoardState: number[][] = [];
     for (let i = 0; i < gridSize; i++) {
@@ -71,6 +83,7 @@ const App = () => {
               setGrid={setGrid}
               generation={generation}
               setGeneration={setGeneration}
+              speed={speed}
             />
           </Paper>
         </Grid>
@@ -82,6 +95,7 @@ const App = () => {
                   setGridConfig={setGridConfig}
                   setGrid={setGrid}
                   initializeGrid={initializeGrid}
+                  setSize={setSize}
                 />
               </Paper>
             </Grid>
@@ -92,6 +106,8 @@ const App = () => {
                   setSize={setSize}
                   size={size}
                   speed={speed}
+                  setGeneration={setGeneration}
+                  clear={clear}
                 />
               </Paper>
             </Grid>

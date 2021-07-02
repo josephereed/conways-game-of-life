@@ -12,6 +12,7 @@ interface PropTypes {
   setGrid: Function;
   setGeneration: Function;
   generation: number;
+  speed: number;
 }
 
 const LifeGrid = ({
@@ -20,6 +21,7 @@ const LifeGrid = ({
   setGrid,
   generation,
   setGeneration,
+  speed,
 }: PropTypes) => {
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -42,20 +44,57 @@ const LifeGrid = ({
       setTimeout(() => {
         setGeneration((prev: any) => prev + 1);
         setGrid((prev: any) => nextGen(prev));
-      }, 33);
+      }, 1000 / speed);
     }
   }, [generation]);
 
+  // const initializeGrid = () => {
+  //   const newBoardState: number[][] = [];
+  //   for (let i = 0; i < gridSize; i++) {
+  //     newBoardState.push([]);
+  //     for (let j = 0; j < gridSize; j++) {
+  //       newBoardState[i].push(0);
+  //     }
+  //   }
+  //   setGrid(newBoardState);
+  // };
   const initializeGrid = () => {
-    const newBoardState: number[][] = [];
-    for (let i = 0; i < gridSize; i++) {
-      newBoardState.push([]);
-      for (let j = 0; j < gridSize; j++) {
-        newBoardState[i].push(0);
+    if (pattern.length < gridSize) {
+      if (pattern.length === gridSize) {
+        return setGrid(pattern);
+      }
+      const newPattern: number[][] = pattern;
+      // add columns
+      for (let row of pattern) {
+        while (row.length < gridSize) {
+          row.unshift(0);
+          row.push(0);
+          if (gridSize - row.length === 1) {
+            row.unshift(0);
+          }
+        }
+      }
+
+      // add rows
+      while (newPattern.length < gridSize) {
+        newPattern.unshift(new Array(gridSize).fill(0));
+        newPattern.push(new Array(gridSize).fill(0));
+        if (gridSize - newPattern.length === 1) {
+          newPattern.unshift(new Array(gridSize).fill(0));
+        }
       }
     }
-    setGrid(newBoardState);
-    return gridSize;
+
+    if (pattern.length > gridSize) {
+      const newBoardState: number[][] = [];
+      for (let i = 0; i < gridSize; i++) {
+        newBoardState.push([]);
+        for (let j = 0; j < gridSize; j++) {
+          newBoardState[i].push(0);
+        }
+      }
+      setGrid(newBoardState);
+    }
   };
 
   const renderBoard = (pattern: number[][]) => {
@@ -104,7 +143,7 @@ const LifeGrid = ({
       <Typography>{`Generation: ${generation}`}</Typography>
       <Box>
         <Button color="primary" onClick={onClick}>
-          Play
+          {alive ? 'pause' : 'play'}
         </Button>
         <Button color="primary" onClick={nextButton}>
           Next

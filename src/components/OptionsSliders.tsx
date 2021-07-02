@@ -1,14 +1,24 @@
 import RangeSlider from './RangeSlider';
 import { Box, Button, Typography } from '@material-ui/core';
+import { clear } from 'console';
 
 interface PropTypes {
   setSize: (size: number) => void;
   setSpeed: (speed: number) => void;
   speed: number;
   size: number;
+  setGeneration: (num: number) => void;
+  clear: Function;
 }
 
-const OptionsSliders = ({ setSize, setSpeed, speed, size }: PropTypes) => {
+const OptionsSliders = ({
+  setSize,
+  setSpeed,
+  speed,
+  size,
+  setGeneration,
+  clear,
+}: PropTypes) => {
   const sizeSliderConfig = {
     min: 5,
     max: 96,
@@ -27,7 +37,10 @@ const OptionsSliders = ({ setSize, setSpeed, speed, size }: PropTypes) => {
         <Typography variant="body2">{`Size: ${size}x${size}`}</Typography>
         <RangeSlider
           {...sizeSliderConfig}
-          setAttribute={setSize}
+          setAttribute={(num: number) => {
+            setSize(num);
+            setGeneration(0);
+          }}
           initialValue={32}
           propValue={size}
         />
@@ -39,7 +52,15 @@ const OptionsSliders = ({ setSize, setSpeed, speed, size }: PropTypes) => {
           propValue={speed}
         />
       </Box>
-      <Button color="primary">Clear</Button>
+      <Button
+        color="primary"
+        onClick={() => {
+          setGeneration(0);
+          clear();
+        }}
+      >
+        Clear
+      </Button>
     </Box>
   );
 };

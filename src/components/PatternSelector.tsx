@@ -23,12 +23,14 @@ interface PropTypes {
   setGridConfig: Function;
   setGrid: Function;
   initializeGrid: Function;
+  setSize: Function;
 }
 
 const PatternSelector = ({
   setGridConfig,
   setGrid,
   initializeGrid,
+  setSize,
 }: PropTypes) => {
   return (
     <Box>
@@ -40,6 +42,7 @@ const PatternSelector = ({
               style={{ cursor: 'pointer' }}
               key={pattern.name}
               onClick={() => {
+                setSize(pattern.size);
                 setGridConfig(pattern.name, pattern.size);
               }}
             >
