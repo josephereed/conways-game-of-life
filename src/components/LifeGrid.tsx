@@ -27,6 +27,7 @@ const LifeGrid = ({
     createStyles({
       root: {
         justifyContent: 'center',
+        minHeight: window.screen.width > 600 ? 662 : 0,
       },
     })
   );
@@ -108,7 +109,12 @@ const LifeGrid = ({
   };
 
   const renderBoard = (pattern: number[][]) => {
-    const cellSize = Math.round(600 - 2 * gridSize) / gridSize;
+    let scaleDown = 1;
+    if (window.screen.width < 600) {
+      //@ts-ignore
+      scaleDown = 2.4;
+    }
+    const cellSize = Math.round(600 - 2 * gridSize) / gridSize / scaleDown;
     return (
       <>
         {pattern &&

@@ -20,7 +20,7 @@ const OptionsSliders = ({
 }: PropTypes) => {
   const sizeSliderConfig = {
     min: 5,
-    max: 96,
+    max: 64,
     step: 1,
   };
 

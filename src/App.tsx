@@ -75,7 +75,7 @@ const App = () => {
   return (
     <Container>
       <Grid container spacing={2} className={classes.root}>
-        <Grid item sm={12} md={8}>
+        <Grid item xs={12} sm={12} md={8}>
           <Paper className={classes.paper}>
             <LifeGrid
               gridSize={size}
