@@ -32,6 +32,7 @@ const LifeGrid = ({
   );
   const classes = useStyles();
   const [alive, setAlive] = useState(false);
+  const [draw, setDraw] = useState(false);
 
   // need following to resize grid in place
   useEffect(() => {
@@ -62,7 +63,8 @@ const LifeGrid = ({
 
   const changeGrid = (x: number, y: number) => {
     const newPattern = [...pattern];
-    newPattern[x][y] === 1 ? (newPattern[x][y] = 0) : (newPattern[x][y] = 1);
+    // newPattern[x][y] === 1 ? (newPattern[x][y] = 0) : (newPattern[x][y] = 1);
+    newPattern[x][y] = 1;
     setGrid(newPattern);
   };
 
@@ -123,6 +125,7 @@ const LifeGrid = ({
                   return (
                     <Cell
                       changeGrid={changeGrid}
+                      draw={draw}
                       x={iIndex}
                       y={jIndex}
                       key={jIndex}
@@ -149,7 +152,11 @@ const LifeGrid = ({
   };
 
   return (
-    <Box className={classes.root}>
+    <Box
+      className={classes.root}
+      onMouseDown={() => setDraw(true)}
+      onMouseUp={() => setDraw(false)}
+    >
       {renderBoard(pattern)}
       <Typography>{`Generation: ${generation}`}</Typography>
       <Box>
