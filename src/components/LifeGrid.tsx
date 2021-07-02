@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Box, Button, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { nextGen } from '../logic/lifeAlgorithm';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 import Cell from './Cell';
 
@@ -36,7 +36,7 @@ const LifeGrid = ({
   // need following to resize grid in place
   useEffect(() => {
     initializeGrid();
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, [gridSize]);
 
   useEffect(() => {
@@ -46,6 +46,7 @@ const LifeGrid = ({
         setGrid((prev: any) => nextGen(prev));
       }, 1000 / speed);
     }
+    // eslint-disable-next-line
   }, [generation]);
 
   // const initializeGrid = () => {
@@ -58,6 +59,13 @@ const LifeGrid = ({
   //   }
   //   setGrid(newBoardState);
   // };
+
+  const changeGrid = (x: number, y: number) => {
+    const newPattern = [...pattern];
+    newPattern[x][y] === 1 ? (newPattern[x][y] = 0) : (newPattern[x][y] = 1);
+    setGrid(newPattern);
+  };
+
   const initializeGrid = () => {
     if (pattern.length < gridSize) {
       if (pattern.length === gridSize) {
@@ -114,6 +122,9 @@ const LifeGrid = ({
                 {row.map((column, jIndex) => {
                   return (
                     <Cell
+                      changeGrid={changeGrid}
+                      x={iIndex}
+                      y={jIndex}
                       key={jIndex}
                       size={cellSize}
                       alive={column ? true : false}

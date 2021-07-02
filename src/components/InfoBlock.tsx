@@ -3,9 +3,7 @@ import { Typography } from '@material-ui/core';
 const InfoBlock = () => {
   return (
     <div style={{ textAlign: 'left' }}>
-      <Typography variant="h6">
-        What is Game of Life? (from wikipedia)
-      </Typography>
+      <Typography variant="h6">What is Game of Life?</Typography>
       <br />
       <Typography variant="body1">
         The Game of Life, also known simply as Life, is a cellular automaton
@@ -50,8 +48,8 @@ const InfoBlock = () => {
         </li>
       </ul>
       <br />
+      <strong>Credits: </strong>
       <em>
-        Credits:{' '}
         <a href="https://conwaylife.com/ref/lexicon/lex.htm">
           https://conwaylife.com/ref/lexicon/lex.htm
         </a>

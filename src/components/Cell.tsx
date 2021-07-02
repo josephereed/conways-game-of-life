@@ -1,8 +1,11 @@
 interface PropTypes {
   size: number;
   alive: boolean;
+  x: number;
+  y: number;
+  changeGrid: Function;
 }
-const Cell = ({ size, alive }: PropTypes) => {
+const Cell = ({ size, alive, x, y, changeGrid }: PropTypes) => {
   return (
     <div
       style={{
@@ -12,6 +15,7 @@ const Cell = ({ size, alive }: PropTypes) => {
         border: '1px solid white',
         backgroundColor: alive ? '#1e88e5' : '#e3e3e3',
       }}
+      onClick={() => changeGrid(x, y)}
     ></div>
   );
 };

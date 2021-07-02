@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import '../styles/PatternSelector.css';
 import { Box, Typography } from '@material-ui/core';
 
@@ -26,12 +27,8 @@ interface PropTypes {
   setSize: Function;
 }
 
-const PatternSelector = ({
-  setGridConfig,
-  setGrid,
-  initializeGrid,
-  setSize,
-}: PropTypes) => {
+const PatternSelector = ({ setGridConfig, setSize }: PropTypes) => {
+  const [highlighted, setHighlighted] = useState('');
   return (
     <Box>
       <div className="pattern-wrapper">
@@ -39,11 +36,15 @@ const PatternSelector = ({
         <ul>
           {patterns.map((pattern) => (
             <li
-              style={{ cursor: 'pointer' }}
+              style={{
+                cursor: 'pointer',
+                color: `${pattern.name === highlighted ? '#1e88e5' : ''}`,
+              }}
               key={pattern.name}
               onClick={() => {
                 setSize(pattern.size);
                 setGridConfig(pattern.name, pattern.size);
+                setHighlighted(pattern.name);
               }}
             >
               <Typography variant="body2">{pattern.name}</Typography>

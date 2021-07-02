@@ -1,6 +1,5 @@
 import RangeSlider from './RangeSlider';
 import { Box, Button, Typography } from '@material-ui/core';
-import { clear } from 'console';
 
 interface PropTypes {
   setSize: (size: number) => void;
