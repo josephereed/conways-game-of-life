@@ -64,8 +64,8 @@ const LifeGrid = ({
 
   const changeGrid = (x: number, y: number) => {
     const newPattern = [...pattern];
-    // newPattern[x][y] === 1 ? (newPattern[x][y] = 0) : (newPattern[x][y] = 1);
-    newPattern[x][y] = 1;
+    newPattern[x][y] === 1 ? (newPattern[x][y] = 0) : (newPattern[x][y] = 1);
+    //newPattern[x][y] = 1;
     setGrid(newPattern);
   };
 
@@ -170,7 +170,7 @@ const LifeGrid = ({
           {alive ? 'pause' : 'play'}
         </Button>
         <Button color="primary" onClick={nextButton}>
-          Next
+          Next Gen
         </Button>
       </Box>
     </Box>

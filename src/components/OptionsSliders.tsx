@@ -31,9 +31,10 @@ const OptionsSliders = ({
   };
   return (
     <Box>
-      <Typography variant="h6">OptionsSliders</Typography>
-      <Box m={2}>
-        <Typography variant="body2">{`Size: ${size}x${size}`}</Typography>
+      <Box>
+        <Typography variant="h6">Options</Typography>
+        <br />
+        <Typography variant="body1">{'Size'}</Typography>
         <RangeSlider
           {...sizeSliderConfig}
           setAttribute={(num: number) => {
@@ -43,7 +44,7 @@ const OptionsSliders = ({
           initialValue={32}
           propValue={size}
         />
-        <Typography variant="body2">{`Speed: ${speed} fps`}</Typography>
+        <Typography variant="body1">{'Speed'}</Typography>
         <RangeSlider
           {...speedSliderConfig}
           setAttribute={setSpeed}
